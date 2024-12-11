@@ -1,0 +1,41 @@
+name: Build Release rpm package - Fedora 41
+run-name: Build Release rpm package - Fedora 41
+on:
+  workflow_dispatch:
+  workflow_call:
+  #push:
+  #  tags: [ 'v*' ]
+
+jobs:
+  buildrpmfedora:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:41
+    steps:
+      - run: dnf update -y
+      - run: dnf install tito -y
+      - run: dnf install git -y
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - uses: actions/checkout@v4
+        with:
+          fetch-tags: true
+          fetch-depth: 0
+      - name: Extract version from tag
+        uses: damienaicheh/extract-version-from-tag-action@v1.3.0
+      - run: dnf builddep rust-luwen.spec -y
+      # - name: Import GPG key
+      #   uses: crazy-max/ghaction-import-gpg@v6
+      #   with:
+      #     gpg_private_key: $${{ secrets.GPG_KEY_RELEASE }}
+      # - run: gpg --list-keys
+      # - run: gpg --list-secret-keys
+
+      - run: tito tag --use-version ${MAJOR}.${MINOR}.${PATCH} --accept-auto-changelog
+      - run: git push --follow-tags origin
+      - run: tito build --rpm
+
+      # - name: Upload RPM
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: TBD
+      #     path: /tmp/tito/TBD

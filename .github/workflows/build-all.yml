@@ -21,3 +21,5 @@ jobs:
   builddeb2404:
       uses: ./.github/workflows/build-deb-ubuntu-24.04.yml
       secrets: inherit
+  buildrpmfedora41:
+      uses: ./.github/workflows/build-rpm-fedora-41.yml
