@@ -12,20 +12,25 @@ jobs:
     container:
       image: fedora:41
     steps:
-      - run: dnf update -y
-      - run: dnf install tito -y
-      - name: Set up git
-        run: |
-          dnf install git -y
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          git config --add user.name "Tenstorrent Releases"
-          git config --add user.email "releases@tenstorrent.com"
+      - run: cat /etc/os-release
+      - run: dnf clean all && dnf update -y
+      - run: |
+          dnf install -y \
+            rust-num-derive+default-devel \
+            rust-num-traits+default-devel \
+            rust-prometheus_exporter+default-devel \
+            maturin \
+            git \
+            tito
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: actions/checkout@v4
         with:
           fetch-tags: true
           fetch-depth: 0
       - name: Extract version from tag
         uses: damienaicheh/extract-version-from-tag-action@v1.3.0
+      - run: git config --add user.name "Tenstorrent Releases"
+      - run: git config --add user.email "releases@tenstorrent.com"
       - run: dnf builddep rust-luwen.spec -y
       # - name: Import GPG key
       #   uses: crazy-max/ghaction-import-gpg@v6
@@ -33,9 +38,10 @@ jobs:
       #     gpg_private_key: $${{ secrets.GPG_KEY_RELEASE }}
       # - run: gpg --list-keys
       # - run: gpg --list-secret-keys
+
       - run: tito tag --use-version ${MAJOR}.${MINOR}.${PATCH} --accept-auto-changelog
       - run: git push --follow-tags origin
-      - run: tito build --rpm
+      - run: tito build --rpm --offline
 
       # - name: Upload RPM
       #   uses: actions/upload-artifact@v4
