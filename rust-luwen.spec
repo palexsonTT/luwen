@@ -7,7 +7,7 @@
 %global path_ttkmd_if %{cargo_registry}/ttkmd-if-%{version_no_tilde}
 
 Name:           rust-luwen
-Version:        0.4.8
+Version:        0.3.7
 Release:        %autorelease
 Summary:        High-level interface for safe and efficient access Tenstorrent AI accelerators
 

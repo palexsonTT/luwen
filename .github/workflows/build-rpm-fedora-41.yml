@@ -14,8 +14,12 @@ jobs:
     steps:
       - run: dnf update -y
       - run: dnf install tito -y
-      - run: dnf install git -y
-      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - name: Set up git
+        run: |
+          dnf install git -y
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config --add user.name "Tenstorrent Releases"
+          git config --add user.email "releases@tenstorrent.com"
       - uses: actions/checkout@v4
         with:
           fetch-tags: true
@@ -29,7 +33,6 @@ jobs:
       #     gpg_private_key: $${{ secrets.GPG_KEY_RELEASE }}
       # - run: gpg --list-keys
       # - run: gpg --list-secret-keys
-
       - run: tito tag --use-version ${MAJOR}.${MINOR}.${PATCH} --accept-auto-changelog
       - run: git push --follow-tags origin
       - run: tito build --rpm
