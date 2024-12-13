@@ -19,6 +19,7 @@ BuildRequires:  cargo-rpm-macros >= 24
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  rust-bincode+default-devel
 BuildRequires:  rust-bitfield+default-devel
+BuildRequires:  rust-bitfield-struct+default-devel
 BuildRequires:  rust-cbindgen+default-devel
 BuildRequires:  rust-clap+default-devel
 BuildRequires:  rust-clap+derive-devel
