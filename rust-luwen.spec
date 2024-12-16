@@ -21,7 +21,7 @@ BuildRequires:  rust-bincode+default-devel
 BuildRequires:  rust-bitfield+default-devel
 BuildRequires:  rust-bitfield-struct+default-devel
 BuildRequires:  rust-cbindgen+default-devel
-#BuildRequires:  rust-clap+default-devel
+BuildRequires:  rust-clap+default-devel
 BuildRequires:  rust-clap+derive-devel
 BuildRequires:  rust-indicatif+default-devel
 BuildRequires:  rust-memmap2+default-devel
@@ -36,7 +36,7 @@ BuildRequires:  rust-pyo3+multiple-pymethods-devel
 BuildRequires:  rust-rand+default-devel
 BuildRequires:  rust-rust-embed+default-devel
 BuildRequires:  rust-rust-embed+interpolate-folder-path-devel
-#BuildRequires:  rust-serde+default-devel
+BuildRequires:  rust-serde+default-devel
 BuildRequires:  rust-serde+derive-devel
 BuildRequires:  rust-serde_yaml+default-devel
 BuildRequires:  rust-thiserror+default-devel
