@@ -14,6 +14,7 @@ jobs:
     steps:
       - run: cat /etc/os-release
       - run: dnf clean all && dnf update -y
+      - run: dnf copr enable @fedora-review/fedora-review-2290696-rust-bitfield-struct -y # TODO deal with this!
       - run: |
           dnf install -y \
             rust-num-derive+default-devel \
@@ -41,7 +42,7 @@ jobs:
 
       - run: tito tag --use-version ${MAJOR}.${MINOR}.${PATCH} --accept-auto-changelog
       - run: git push --follow-tags origin
-      - run: tito build --rpm --offline
+      - run: tito build --rpm
 
       # - name: Upload RPM
       #   uses: actions/upload-artifact@v4
